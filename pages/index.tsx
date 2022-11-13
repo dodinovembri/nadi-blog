@@ -6,11 +6,11 @@ import Banner from '../components/Banner'
 import Search from '../components/Search'
 import Footer from '../components/Footer'
 
-export default function Home({ data }) {
+export default function Home({ data_page_information, data_page_container }) {
   return (
     <>
       <Head>
-        <title>Nadi Blog | Welcome to My Blog</title>
+        <title>{data_page_information.nadi_get_blog_page_information.html_title}</title>
         <meta name="author" content="dodinovembri" />
         <meta name="description" content="Blog." />
 
@@ -25,7 +25,7 @@ export default function Home({ data }) {
       </Head>
       <div id="wrapper">
         <div className="h-wrapper">
-          <TopBar />
+          <TopBar page_links={data_page_container.nadi_get_blog_page_container.page_links} page_social_medias={data_page_container.nadi_get_blog_page_container.page_social_medias}/>
           <Header />
         </div>
         <div className="push-top"></div>
@@ -346,9 +346,15 @@ export default function Home({ data }) {
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res = await fetch(`http://localhost:3000/blog/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
-  const data = await res.json()
+  const res_page_information = await fetch(`http://localhost:3000/page_information/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
+  const data_page_information = await res_page_information.json()
+
+  const res_page_container = await fetch(`http://localhost:3000/page_container/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
+  const data_page_container = await res_page_container.json()
 
   // Pass data to the page via props
-  return { props: { data } }
+  return { props: { 
+    data_page_information,
+    data_page_container
+  } }
 }

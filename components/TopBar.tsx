@@ -1,4 +1,5 @@
-export default function TopBar() {
+export default function TopBar({ page_links, page_social_medias }) {
+    console.log(page_links);
     return (
         <>
             <div className="topbar">
@@ -6,20 +7,21 @@ export default function TopBar() {
                     <div className="row">
                         <div className="col-sm-6">
                             <ul className="top-menu">
-                                <li><a href="#">About</a></li>
-                                <li><a href="#">Features</a></li>
-                                <li><a href="#">Pricing</a></li>
-                                <li><a href="#">Terms</a></li>
+                                {[...Object.entries(page_links)]
+                                    .sort((a, b) => a[1].sort - b[1].sort)
+                                    .map((page_link) => (
+                                        <li key={page_link[0]}><a href={page_link[1].link_url}>{page_link[1].link_name}</a></li>
+                                    ))}
                             </ul>
                         </div>
                         <div className="col-sm-6">
                             <div className="pull-right hidden-xs">
                                 <ul className="social-icon unstyled">
-                                    <li><a href="#"><i className="fa fa-twitter"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-facebook"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-instagram"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-dribbble"></i></a></li>
-                                    <li><a href="#"><i className="fa fa-behance"></i></a></li>
+                                    {[...Object.entries(page_social_medias)]
+                                        .sort((a, b) => a[1].sort - b[1].sort)
+                                        .map((page_social_media) => (
+                                            <li key={page_social_media[0]}><a href={page_social_media[1].link_url}><i className={page_social_media[1].icon_name}></i></a></li>                                            
+                                        ))}
                                 </ul>
                             </div>
                         </div>
