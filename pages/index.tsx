@@ -6,11 +6,11 @@ import Banner from '../components/Banner'
 import Search from '../components/Search'
 import Footer from '../components/Footer'
 
-export default function Home({ data_page_information, data_page_container }) {
+export default function Home({ blog_template, data_page_container }) {
   return (
     <>
       <Head>
-        <title>{data_page_information.nadi_get_blog_page_information.html_title}</title>
+        <title>{data_page_container.nadi_get_blog_page_information.html_title}</title>
         <meta name="author" content="dodinovembri" />
         <meta name="description" content="Blog." />
 
@@ -25,8 +25,8 @@ export default function Home({ data_page_information, data_page_container }) {
       </Head>
       <div id="wrapper">
         <div className="h-wrapper">
-          <TopBar page_links={data_page_container.nadi_get_blog_page_container.page_links} page_social_medias={data_page_container.nadi_get_blog_page_container.page_social_medias}/>
-          <Header />
+          <TopBar links={blog_template.nadi_get_blog_template.links} social_medias={blog_template.nadi_get_blog_template.social_medias}/>
+          <Header menus={blog_template.nadi_get_blog_template.menus}/>
         </div>
         <div className="push-top"></div>
         <Banner />
@@ -346,15 +346,16 @@ export default function Home({ data_page_information, data_page_container }) {
 
 export async function getServerSideProps() {
   // Fetch data from external API
-  const res_page_information = await fetch(`http://localhost:3000/page_information/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
-  const data_page_information = await res_page_information.json()
+  // Get blog template
+  const res_blog_template = await fetch(`http://localhost:3000/blog-template/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
+  const blog_template = await res_blog_template.json()
 
-  const res_page_container = await fetch(`http://localhost:3000/page_container/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
-  const data_page_container = await res_page_container.json()
+  const res_page_information = await fetch(`http://localhost:3000/page_information/63dc9c27-d0a2-4f1e-9049-a6f55e7a0882`)
+  const data_page_container = await res_page_information.json()
 
   // Pass data to the page via props
   return { props: { 
-    data_page_information,
+    blog_template,
     data_page_container
   } }
 }
